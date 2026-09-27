@@ -4,7 +4,7 @@
   - Naming standarts:
      function, method, variable => CAMEL
      class => PASCAL
-     folder => KEBAB
+     folder/file => KEBAB
      CSS => SNAKE
   - Error handling   
 
