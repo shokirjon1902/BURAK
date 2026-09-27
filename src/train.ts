@@ -1,4 +1,16 @@
 /*
+  Project Standarts:
+  - Logging standarts
+  - Naming standarts:
+     function, method, variable => CAMEL
+     class => PASCAL
+     folder => KEBAB
+     CSS => SNAKE
+  - Error handling   
+
+*/
+
+/*
 
 TASK N:
 
@@ -8,14 +20,14 @@ MASALAN: palindromCheck("dad") return true;  palindromCheck("son") return false;
 
 **/
 
-function palindromCheck(string: string) {
-  const original = string;
-  const reverse = string.split("").reverse().join("");
-  return original === reverse;
-}
+// function palindromCheck(string: string) {
+//   const original = string;
+//   const reverse = string.split("").reverse().join("");
+//   return original === reverse;
+// }
 
-console.log(palindromCheck("dad"));
-console.log(palindromCheck("son"));
+// console.log(palindromCheck("dad"));
+// console.log(palindromCheck("son"));
 
 /**
  * TASK M: 
