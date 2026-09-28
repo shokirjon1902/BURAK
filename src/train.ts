@@ -1,4 +1,5 @@
 /*
+
   Project Standarts:
   - Logging standarts
   - Naming standarts:
@@ -7,6 +8,14 @@
      folder/file => KEBAB
      CSS => SNAKE
   - Error handling   
+
+*/
+
+/*
+
+Traditional API 
+Rest API
+GraphQL API
 
 */
 
