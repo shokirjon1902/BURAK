@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { Date } from "mongoose";
+// import { Date } from "mongoose";
 import { MemberStatus, MemberType } from "../enums/member.enum";
 
 export interface Member {
@@ -27,4 +27,9 @@ export interface MemberInput {
   memberDesc?: string;
   memberPoints?: number;
   memberImage?: string;
+}
+
+export interface LoginInput {
+  memberNick: string;
+  memberPassword?: string;
 }
