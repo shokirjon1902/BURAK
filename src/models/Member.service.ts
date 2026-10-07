@@ -23,7 +23,7 @@ class MemberService {
       const member = result.toObject() as Member;
       member.memberPassword = ""; // Hide the password field
 
-      return result.toJSON();
+      return member;
     } catch (err) {
       console.error("Error, model:signup", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
