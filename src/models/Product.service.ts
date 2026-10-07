@@ -1,6 +1,3 @@
-
-class ProductService {
-
-}
+class ProductService {}
 
 export default ProductService;
