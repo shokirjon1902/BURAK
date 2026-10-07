@@ -103,7 +103,10 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
 
 
 
-restaurantController.checkAuthSession = async (req: AdminRequest, res: Response) => {
+restaurantController.checkAuthSession = async (
+  req: AdminRequest, 
+  res: Response
+) => {
   try {
     console.log("checkAuthSession");
     if (req.session?.member) 
@@ -114,5 +117,25 @@ restaurantController.checkAuthSession = async (req: AdminRequest, res: Response)
     res.send(err);
   }
 };
+
+restaurantController.verfyRestaurant = (
+  req: AdminRequest, 
+  res: Response, 
+  next: Function
+) => {
+   if(req.session?.member?.memberType === MemberType.RESTAURANT) {
+    req.member =req.session.member;
+    next();
+   } else {
+    const message = Message.NOT_AUTHENTICATED;
+    res.send(
+      `<script>alert('${message}'); window.location.replace("/admin/login")</script>`
+    );
+
+  }  
+    
+};
+  
+
 
 export default restaurantController;
