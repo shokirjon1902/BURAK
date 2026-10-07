@@ -1,3 +1,14 @@
+/* TASK S:
+
+Shunday function yozing, u numberlardan tashkil topgan array qabul qilsin va osha numberlar orasidagi tushib qolgan sonni topib uni return qilsin
+MASALAN: missingNumber([3, 0, 1]) return 2 */
+
+function missingNumber(arr: number[]): number{
+  return arr.length * (arr.length + 1) / 2 - arr.reduce((acc, curr) => acc + curr, 0)
+}
+
+const result = missingNumber([3, 0, 1]); 
+console.log("result", result);
 /*TASK R
 
 Shunday function yozing, u string parametrga ega bo'lsin.
@@ -7,12 +18,12 @@ string ichidagi sonlarin yig'indisni hisoblab, number holatida qaytarsin
 MASALAN: calculate("1 + 3"); return 4;
 1 + 3 = 4, shu sababli 4 natijani qaytarmoqda. */
 
-function calculate (param: string): number{
-  const numbers = param.split("+").map((item)=> Number(item.trim()))
-  return numbers.reduce ((acc, curr) => acc + curr, 0)
-}
-const result = calculate("1 + 10");
-console.log("result", result);
+// function calculate (param: string): number{
+//   const numbers = param.split("+").map((item)=> Number(item.trim()))
+//   return numbers.reduce ((acc, curr) => acc + curr, 0)
+// }
+// const result = calculate("1 + 10");
+// console.log("result", result);
 
 /*TASK Q:
 
