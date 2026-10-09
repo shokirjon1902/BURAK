@@ -1,8 +1,12 @@
+import { shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { Product, ProductInput } from "../libs/types/product";
+import { Product, ProductInput, ProductUpdateInput } from "../libs/types/product";
 import ProductModel from "../schema/Product.model";
 
 class ProductService {
+  createNewProduct(data: ProductInput) {
+    throw new Error("Method not implemented.");
+  }
     private readonly productModel;
     
       constructor() {
@@ -13,16 +17,18 @@ class ProductService {
 
   /** SSR */
 
-  public async createNewProduct(input:ProductInput ): Promise<Product>{
-    try {
-      return await this.productModel.create(input)
-   
-   } catch (err) {
-    console.log("Error, model:createNewProduct", err);
-    throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
-   }
+  public async updateChoosenProduct(
+    id: string,
+    input: ProductUpdateInput
+   ): Promise<Product>{
+    id= shapeIntoMongooseObjectId(id);
+    const result = await this.productModel
+    .findOneAndUpdate({_id: id}, input, {new: true})
+    .exec();
+    if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.UPDATE_FAILED);
 
-  }
+    return result;
+   }
 
 }
 
