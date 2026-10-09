@@ -75,7 +75,9 @@ class MemberService {
       result.memberPassword = ""; // Hide the password field
       return result;
     } catch (err) {
-      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+      console.error(err)
+      // throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+      throw err
     }
   }
   public async processLogin(input: LoginInput): Promise<Member> {
