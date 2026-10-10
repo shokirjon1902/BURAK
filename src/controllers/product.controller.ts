@@ -28,7 +28,9 @@ productController.getAllProducts = async (req: Request, res: Response) => {
 productController.createNewProduct = async (req: AdminRequest, res: Response) => {
   try {
     console.log(".createNewProduct");
-    console.log("req.files",req.files);
+    console.log("Content-Type:", req.headers["content-type"]);
+    console.log("req.body:", req.body);
+    console.log("req.files:", req.files);
 
     if (!req.files?.length) 
       throw new Errors(HttpCode.FORBIDDIN, Message.CREATE_FAILED);
