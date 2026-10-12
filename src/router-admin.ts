@@ -40,4 +40,7 @@ routerAdmin.post(
 
 
 /** User */
+routerAdmin.get("/user/all", restaurantController.verfyRestaurant,
+  restaurantController.getUsers );
+
 export default routerAdmin;

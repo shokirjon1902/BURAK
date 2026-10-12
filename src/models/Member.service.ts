@@ -80,6 +80,7 @@ class MemberService {
       throw err
     }
   }
+
   public async processLogin(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
       .findOne(
@@ -107,6 +108,17 @@ class MemberService {
 
     return result;
   }
+
+  public async getUsers(): Promise<Member[]> {
+    const result = await this.memberModel
+    .find({MemberType: MemberType.USER})
+    .exec();
+
+    if(!result)throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result
+    
+  }
 }
 
-export default MemberService;
+export default MemberService ;
