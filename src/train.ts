@@ -1,3 +1,27 @@
+/*TASK V
+
+Shunday function yozing, uni string parametri bo'lsin.
+Va bu function stringdagi har bir harfni o'zi bilan
+necha marotaba taktorlanganligini ko'rsatuvchi object qaytarsin.
+  
+MASALAN: countChars("hello") return {h: 1, e: 1, l: 2, o: 1}
+
+Yuqoridagi misolda, 'hello' so'zi tarkibida
+qatnashgan harflar necha marotaba takrorlangini bilan
+object sifatida qaytarilmoqda. */
+
+function countChars(parametr: string) {
+  let a = {};
+  for (const harf of parametr) {
+    if (harf in a) {
+      a[harf] += 1;
+    } else {
+      a[harf] = 1;
+    }
+  }
+  return a;
+}
+console.log(countChars("hello"));
 /*TASK U
 
 Shunday function tuzing, uni number parametri bo'lsin.
@@ -10,24 +34,21 @@ Yuqoridagi birinchi misolda, argument sifatida, 9 berilmoqda.
 Va 0'dan boshlab sanaganda 9'gacha 4'ta toq son mavjud. 
 Keyingi namunada ham xuddi shunday xolat takrorlanmoqda. */
 
-function sumodds (number){
-  let count = 0 ;
+// function sumodds (number){
+//   let count = 0 ;
 
-  for(let i = 0; i < number; i++) {
-    if(i%2 !== 0){
-      count++
-    }
+//   for(let i = 0; i < number; i++) {
+//     if(i%2 !== 0){
+//       count++
+//     }
 
-  }
+//   }
 
-  return count 
+//   return count
 
-}
-const result = sumodds(11)
-console.log("result:",result)
-
-
-
+// }
+// const result = sumodds(11)
+// console.log("result:",result)
 
 /*TASK T
 
@@ -56,7 +77,7 @@ MASALAN: missingNumber([3, 0, 1]) return 2 */
 //   return arr.length * (arr.length + 1) / 2 - arr.reduce((acc, curr) => acc + curr, 0)
 // }
 
-// const result = missingNumber([3, 0, 1]); 
+// const result = missingNumber([3, 0, 1]);
 // console.log("result", result);
 /*TASK R
 
@@ -99,7 +120,6 @@ Qabul qilingan objectni nested array sifatida convert qilib qaytarsin
 
 MASALAN: objectToArray( {a: 10, b: 20}) return [['a', 10], ['b', 20]]
 */
-
 
 // Task-O
 // Shunday function yozing va u har xil qiymatlardan iborat array qabul qilsin. Va array ichidagi sonlar yig'indisini hisoblab chiqgan javobni qaytarsin. MASALAN: calculateSumOfNumbers([10, "10", {son: 10}, true, 35]); return 45 Yuqoridagi misolda array tarkibida faqatgina ikkita yagona son mavjud bular 10 hamda 35 Qolganlari nested bo'lib yoki type'lari number emas.
