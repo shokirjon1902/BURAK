@@ -10,6 +10,17 @@ return [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]];
 Yuqoridagi namunada berilayotgan array ikkinchi parametr 3'ga
 asoslanib 3 bo'lakga bo'linib qaytmoqda. Qolgani esa o'z holati qolyapti */
 
+function chunkArray(any: number[]) {
+  const result = [];
+  for (let i = 0; i < any.length; i += 3) {
+    any.slice(i, i + 3);
+    result.push(any.slice(i, i + 3));
+  }
+  return result;
+}
+
+console.log(chunkArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+
 /*TASK V
 
 Shunday function yozing, uni string parametri bo'lsin.
