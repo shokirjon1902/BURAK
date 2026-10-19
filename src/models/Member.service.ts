@@ -1,7 +1,12 @@
-import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../libs/types/member";
+import {
+  LoginInput,
+  Member,
+  MemberInput,
+  MemberUpdateInput,
+} from "../libs/types/member";
 import MemberModel from "../schema/Member.model";
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { MemberType } from "../libs/enums/member.enum";
+import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import bcrypt from "bcryptjs";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 
@@ -32,16 +37,22 @@ class MemberService {
   }
 
   public async login(input: LoginInput): Promise<Member> {
-    //TODO: Cpnsider member status later
+    //TODO: Consider member status later
+
     const member = await this.memberModel
       .findOne(
-        { memberNick: input.memberNick },
-        { _id: 1, memberNick: 1, memberPassword: 1 },
+        {
+          memberNick: input.memberNick,
+          memberStatus: { $ne: MemberStatus.DELETE },
+        },
+        { _id: 1, memberNick: 1, memberPassword: 1, memberStatus: 1 },
       )
       .exec();
 
     if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);
-
+    else if (member.memberStatus === MemberStatus.BLOCK) {
+      throw new Errors(HttpCode.FORBIDDIN, Message.BLOCKED_USER);
+    }
     const isMatch = await bcrypt.compare(
       input.memberPassword!,
       member.memberPassword!,
@@ -76,9 +87,9 @@ class MemberService {
       result.memberPassword = ""; // Hide the password field
       return result;
     } catch (err) {
-      console.error(err)
+      console.error(err);
       // throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
-      throw err
+      throw err;
     }
   }
 
@@ -112,26 +123,24 @@ class MemberService {
 
   public async getUsers(): Promise<Member[]> {
     const result = await this.memberModel
-    .find({memberType: MemberType.USER})
-    .exec();
+      .find({ memberType: MemberType.USER })
+      .exec();
 
-    if(!result)throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
-    return result
-    
+    return result;
   }
 
   public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
-    input._id = shapeIntoMongooseObjectId(input._id)
+    input._id = shapeIntoMongooseObjectId(input._id);
     const result = await this.memberModel
-    .findByIdAndUpdate({_id: input._id}, input, {new: true})
-    .exec();
+      .findByIdAndUpdate({ _id: input._id }, input, { new: true })
+      .exec();
 
-    if(!result)throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
-    return result
-    
+    return result;
   }
 }
 
-export default MemberService ;
+export default MemberService;
