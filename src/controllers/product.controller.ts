@@ -7,7 +7,6 @@ import { AdminRequest } from "../libs/types/member";
 
 const productService = new ProductService();
 
-
 const productController: T = {};
 /* SPA */
 
@@ -17,7 +16,9 @@ productController.getAllProducts = async (req: Request, res: Response) => {
   try {
     console.log("getAllProducts");
     const data = await productService.getAllProducts();
-    res.render("products", {products: data});
+    console.log("products", data);
+
+    res.render("products", { products: data });
   } catch (err) {
     console.log("Error, getAllProducts", err);
     if (err instanceof Errors) res.status(err.code).json(err);
@@ -25,44 +26,51 @@ productController.getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-productController.createNewProduct = async (req: AdminRequest, res: Response) => {
+productController.createNewProduct = async (
+  req: AdminRequest,
+  res: Response,
+) => {
   try {
     console.log(".createNewProduct");
     console.log("Content-Type:", req.headers["content-type"]);
     console.log("req.body:", req.body);
     console.log("req.files:", req.files);
 
-    if (!req.files?.length) 
+    if (!req.files?.length)
       throw new Errors(HttpCode.FORBIDDIN, Message.CREATE_FAILED);
-    
+
     const data: ProductInput = req.body;
-    data.productImages = req.files?.map(ele => {
+    data.productImages = req.files?.map((ele) => {
       return ele.path; // rasmlar ketmaketligi teskari bolsa tug'irlash mantig'i
     });
 
     await productService.createNewProduct(data);
 
-    res.send(`<script> alert ("Succesful creation"); window.location.replace("admin/product/all")</script>`)
-
-
-
+    res.send(
+      `<script> alert ("Succesful creation"); window.location.replace("admin/product/all")</script>`,
+    );
   } catch (err) {
     console.log("Error, createNewProduct", err);
-    const message = err instanceof Errors ? err.message: Message.SOMETHING_WENT_WRONG;
-    res.send(`<script> alert ("${message}"); window.location.replace("admin/product/all")</script>`)
-    
+    const message =
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+    res.send(
+      `<script> alert ("${message}"); window.location.replace("admin/product/all")</script>`,
+    );
   }
 };
 
-productController.updateChoosenProduct = async (req: Request, res: Response) => {
+productController.updateChoosenProduct = async (
+  req: Request,
+  res: Response,
+) => {
   try {
     console.log(".updateChoosenProduct");
     const id = req.params.id;
     console.log("id:", id);
 
-    const result = await productService.updateChoosenProduct(id, req.body)
+    const result = await productService.updateChoosenProduct(id, req.body);
 
-    res.status(HttpCode.OK).json({data: result})
+    res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
     console.log("Error, updateChoosenProduct", err);
     if (err instanceof Errors) res.status(err.code).json(err);
