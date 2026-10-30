@@ -8,9 +8,13 @@ router.post("/member/signup", memberController.signup);
 router.post(
   "/member/logput",
   memberController.verifyAuth,
-  memberController.logout(),
+  memberController.logout,
 );
-router.get("/member/detail", memberController.verifyAuth);
+router.get(
+  "/member/detail",
+  memberController.verifyAuth,
+  memberController.getMemberDetail,
+);
 
 /* Product */
 
