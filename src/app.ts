@@ -11,7 +11,7 @@ import { T } from "./libs/types/common";
 
 const MongoDBStore = ConnectMongoDB(session);
 const store = new MongoDBStore({
-  uri:String(process.env.MONGO_URL),
+  uri: String(process.env.MONGO_URL),
   collection: "sessions",
 });
 
@@ -22,21 +22,20 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan(MORGAN_FORMAT));
+
 /** 2- SESSIONS */
-
 app.use(
-    session({
-       secret: String(process.env.SESSION_SECRET),
-       cookie: {
-         maxAge: 1000 * 3600 * 6  // 6 hours
-        },  
-        store: store,
-        resave: true,
-        saveUninitialized: true,
-
-    })
+  session({
+    secret: String(process.env.SESSION_SECRET),
+    cookie: {
+      maxAge: 1000 * 3600 * 6, // 6 hours
+    },
+    store: store,
+    resave: true,
+    saveUninitialized: true,
+  }),
 );
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const sessionInsttance = req.session as T;
   res.locals.member = sessionInsttance.member;
   next();
