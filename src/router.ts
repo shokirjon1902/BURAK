@@ -23,6 +23,7 @@ router.post(
   uploader("./uploads/members").single("memberImage"),
   memberController.updateMember,
 );
+router.get("/member/top-users", memberController.getTopUsers);
 
 /* Product */
 
