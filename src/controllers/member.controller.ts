@@ -19,6 +19,19 @@ const authService = new AuthService();
 
 const memberController: T = {};
 
+memberController.getRestaurant = async (req: Request, res: Response) => {
+  try {
+    console.log("getRestaurant");
+
+    const result = await memberServise.getRestaurant();
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, getRestaurant", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
 memberController.signup = async (req: Request, res: Response) => {
   try {
     console.log("signup");
@@ -26,12 +39,12 @@ memberController.signup = async (req: Request, res: Response) => {
       result: Member = await memberServise.signup(input);
     const token = await authService.createToken(result);
 
-    res.cookie("accesToken", token, {
+    res.cookie("accessToken", token, {
       maxAge: AUTH_TIMER * 3600 * 1000,
       httpOnly: false,
     });
 
-    res.status(HttpCode.CREATED).json({ member: result, accesToken: token });
+    res.status(HttpCode.CREATED).json({ member: result, accessToken: token });
   } catch (err) {
     console.log("Error, signup", err);
     if (err instanceof Errors) res.status(err.code).json(err);
@@ -51,7 +64,7 @@ memberController.login = async (req: Request, res: Response) => {
       httpOnly: false,
     });
 
-    res.status(HttpCode.OK).json({ member: result, accesToken: token });
+    res.status(HttpCode.OK).json({ member: result, accessToken: token });
   } catch (err) {
     console.log("Error, login", err);
     if (err instanceof Errors) res.status(err.code).json(err);
