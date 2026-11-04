@@ -1,3 +1,3 @@
-export enum Viewgroup {
+export enum ViewGroup {
   PRODUCT = "PRODUCT",
 }
