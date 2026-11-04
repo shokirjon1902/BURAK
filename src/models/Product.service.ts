@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import { ProductStatus } from "../libs/enums/product.enum";
 import Errors, { HttpCode, Message } from "../libs/Errors";
@@ -24,6 +25,9 @@ class ProductService {
 
     if (inquiry.productCollection)
       match.productCollection = inquiry.productCollection;
+    if (inquiry.search) {
+      match.productName = { $regex: new RegExp(inquiry.search, "i") };
+    }
 
     const sort: T =
       inquiry.order === "productPrice"
@@ -39,6 +43,25 @@ class ProductService {
       ])
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+
+  public async getProduct(
+    memberId: ObjectId | null,
+    id: string,
+  ): Promise<void> {
+    const productId = shapeIntoMongooseObjectId(id);
+
+    let result = await this.productModel
+      .findOne({
+        _id: productId,
+        produtStatus: ProductStatus.PROCESS,
+      })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    //TODO: If authenticated users => first => view log creation
+
     return result;
   }
 
